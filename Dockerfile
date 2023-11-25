@@ -2,6 +2,7 @@
 FROM archlinux:base-devel
 # Create a user 'builder' with a home directory
 RUN useradd -m -d /home/builder -s /bin/bash builder
+RUN usermod -aG wheel builder
 RUN pacman-key --init
 RUN pacman-key --populate
 RUN pacman -Syu --noconfirm
@@ -10,7 +11,7 @@ RUN pacman -Syu --noconfirm
 WORKDIR /home/builder
 
 # Grant sudo privileges to the 'builder' user without a password prompt
-RUN echo 'builder ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN echo 'wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Switch to the 'builder' user
 USER builder
